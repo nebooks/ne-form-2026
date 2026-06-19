@@ -183,14 +183,6 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
     <div class="done-title">신청해 주셔서 감사합니다!</div>
     <div class="done-sub">7월 10일 이후 개별 연락 드린 후<br>학교 주소로 발송해 드립니다.</div>
   </div>
-  <div class="done-body">
-    <div class="done-card">
-      <i class="ti ti-package"></i>
-      <div class="done-card-text">
-        <strong>자료 발송 안내</strong><br>
-        신청 학교를 대상으로 7월 10일 이후 개별 연락 드린 후 학교 주소로 발송해 드립니다.
-      </div>
-    </div>
   </div>
   <div class="done-footer">Copyright © NE Neungyule, Inc. All Rights Reserved</div>
 </div>
@@ -224,6 +216,13 @@ function submitForm(){
   document.getElementById('donePage').classList.add('show');
   window.scrollTo(0,0);
 }
+
+document.getElementById('f-tel').addEventListener('input', function(e){
+  var v=e.target.value.replace(/\D/g,'').substring(0,11);
+  if(v.length<4) e.target.value=v;
+  else if(v.length<8) e.target.value=v.substring(0,3)+'-'+v.substring(3);
+  else e.target.value=v.substring(0,3)+'-'+v.substring(3,7)+'-'+v.substring(7);
+});
 </script>
 </body>
 </html>
