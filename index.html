@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="엔이능률 교과서 수업 운영 지원 자료 무료 신청">
+<title>엔이능률 교과서 부가자료 무료 신청</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100vh;background:#f4f4f4;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif}
+.page{max-width:480px;margin:0 auto;background:#f4f4f4;min-height:100vh}
+
+.slider-wrap{position:relative;background:#1D1717;overflow:hidden}
+.slides{display:flex;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+.slide{min-width:100%;aspect-ratio:16/9;position:relative;background:#000}
+.slide iframe{width:100%;height:100%;border:none;display:block;pointer-events:none}
+.slide-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);cursor:pointer;transition:background 0.2s}
+.slide-overlay.playing{background:transparent;pointer-events:none}
+.play-btn{width:60px;height:60px;border-radius:50%;background:rgba(232,56,40,0.92);display:flex;align-items:center;justify-content:center}
+.play-btn i{font-size:26px;color:#fff;margin-left:4px}
+.slide-label{position:absolute;bottom:12px;left:12px;background:rgba(29,23,23,0.78);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
+.dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:all 0.2s}
+.dot.active{background:#E83828;width:22px;border-radius:4px}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(29,23,23,0.5);border:none;color:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10}
+.arrow.left{left:10px}
+.arrow.right{right:10px}
+.arrow i{font-size:20px}
+
+.hero-bottom{background:#1D1717;padding:18px 18px 22px}
+.hero-tag{font-size:11px;font-weight:700;color:#E83828;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:7px}
+.hero-title{font-size:20px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:8px}
+.hero-title span{color:#E83828}
+.hero-sub{font-size:13px;color:#CDCEC0;line-height:1.6;margin-bottom:16px}
+.hero-info{border-top:1px solid rgba(255,255,255,0.1);padding-top:14px;display:flex;flex-direction:column;gap:8px}
+.hero-info-item{display:flex;align-items:flex-start;gap:8px}
+.hero-info-item i{font-size:15px;flex-shrink:0;margin-top:1px}
+.hero-info-item.date i{color:#E83828}
+.hero-info-item.ship i{color:#A0D2F2}
+.hero-info-item span{font-size:12px;color:#CDCEC0;line-height:1.5}
+.hero-info-item span strong{color:#fff;font-weight:600}
+
+.deadline-bar{background:#E83828;padding:12px 18px;display:flex;align-items:center;gap:10px}
+.deadline-bar i{color:#fff;font-size:20px;flex-shrink:0}
+.deadline-text{font-size:13px;color:#fff;font-weight:500}
+.deadline-text strong{font-weight:700}
+
+.form-area{padding:16px;display:flex;flex-direction:column;gap:12px;background:#f4f4f4}
+.section-label{font-size:11px;font-weight:700;color:#E83828;letter-spacing:0.08em;text-transform:uppercase;margin-top:6px}
+.field-card{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:14px 16px}
+.field-label{font-size:13px;color:#555;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.field-label i{font-size:17px;color:#888}
+.req{color:#E83828;margin-left:2px}
+.field-input{width:100%;border:1px solid #e0e0e0;border-radius:8px;padding:11px 13px;font-size:15px;color:#1D1717;background:#fff;outline:none;-webkit-appearance:none}
+.field-input:focus{border-color:#E83828;box-shadow:0 0 0 3px rgba(232,56,40,0.08)}
+textarea.field-input{resize:none;height:80px;line-height:1.5}
+.field-hint{font-size:11px;color:#aaa;margin-top:6px}
+
+.choice-card{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:14px 16px}
+.choice-title{font-size:13px;color:#555;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.choice-title i{font-size:17px;color:#888}
+.choice-item{display:flex;align-items:flex-start;gap:12px;padding:12px 13px;border-radius:8px;border:1px solid #e8e8e8;margin-bottom:8px;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.choice-item:last-child{margin-bottom:0}
+.choice-item.on{border-color:#E83828;background:#FEF5F4}
+.choice-check{width:22px;height:22px;border-radius:5px;border:1.5px solid #ccc;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.choice-item.on .choice-check{background:#E83828;border-color:#E83828}
+.choice-check i{font-size:14px;color:#fff}
+.choice-name{font-size:14px;font-weight:600;color:#1D1717;margin-bottom:3px}
+.choice-desc{font-size:12px;color:#888;line-height:1.4}
+
+.privacy-box{background:#f8f8f8;border-radius:8px;padding:13px 15px;display:flex;gap:9px;border:1px solid #e8e8e8}
+.privacy-box i{font-size:17px;color:#aaa;flex-shrink:0;margin-top:1px}
+.privacy-text{font-size:11px;color:#888;line-height:1.7}
+
+.submit-btn{width:100%;padding:17px;background:#E83828;color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:-0.01em;margin-top:4px;-webkit-tap-highlight-color:transparent}
+.submit-btn:active{background:#c42e1e;transform:scale(0.98)}
+
+.footer{text-align:center;padding:20px 16px 36px;font-size:12px;color:#aaa;background:#f4f4f4}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="slider-wrap">
+    <div class="slides" id="slides">
+      <div class="slide">
+        <iframe id="yt0" src="https://www.youtube.com/embed/dQw4w9WgXcQ?mute=1&controls=0&modestbranding=1&rel=0" allowfullscreen title="영어권문화자료집 소개"></iframe>
+        <div class="slide-overlay" id="ov0" onclick="playSlide(0)">
+          <div class="play-btn"><i class="ti ti-player-play"></i></div>
+        </div>
+        <div class="slide-label">① 영어권문화자료집</div>
+      </div>
+      <div class="slide">
+        <iframe id="yt1" src="https://www.youtube.com/embed/dQw4w9WgXcQ?mute=1&controls=0&modestbranding=1&rel=0&start=10" allowfullscreen title="교과서별 부가자료 풀패키지 소개"></iframe>
+        <div class="slide-overlay" id="ov1" onclick="playSlide(1)">
+          <div class="play-btn"><i class="ti ti-player-play"></i></div>
+        </div>
+        <div class="slide-label">② 교과서별 부가자료 풀패키지</div>
+      </div>
+    </div>
+    <button class="arrow left" onclick="move(-1)" aria-label="이전 영상"><i class="ti ti-chevron-left"></i></button>
+    <button class="arrow right" onclick="move(1)" aria-label="다음 영상"><i class="ti ti-chevron-right"></i></button>
+    <div class="dots">
+      <div class="dot active" onclick="goTo(0)"></div>
+      <div class="dot" onclick="goTo(1)"></div>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-tag">Free Material</div>
+    <div class="hero-title">엔이능률 교과서<br><span>수업 지원 자료</span> 무료 신청</div>
+    <div class="hero-sub">영어 교과서를 사용 중인 선생님께 부가자료를 무료로 보내드립니다.</div>
+    <div class="hero-info">
+      <div class="hero-info-item date">
+        <i class="ti ti-calendar-event"></i>
+        <span>신청 기간 <strong>2026년 7월 10일(목)</strong>까지</span>
+      </div>
+      <div class="hero-info-item ship">
+        <i class="ti ti-package"></i>
+        <span>신청 학교 대상으로 <strong>7월 10일 이후</strong> 개별 연락 드린 후 학교 주소로 발송해 드립니다.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="deadline-bar">
+    <i class="ti ti-calendar-event"></i>
+    <div class="deadline-text">신청 마감 <strong>2026년 7월 10일(목)</strong>까지</div>
+  </div>
+
+  <div class="form-area">
+    <div class="section-label">선생님 정보</div>
+
+    <div class="field-card">
+      <div class="field-label"><i class="ti ti-user"></i> 성함 <span class="req">*</span></div>
+      <input class="field-input" type="text" placeholder="홍길동" id="f-name">
+    </div>
+
+    <div class="field-card">
+      <div class="field-label"><i class="ti ti-building"></i> 학교명 <span class="req">*</span></div>
+      <input class="field-input" type="text" placeholder="○○고등학교" id="f-school">
+    </div>
+
+    <div class="field-card">
+      <div class="field-label"><i class="ti ti-device-mobile"></i> 연락처 <span class="req">*</span></div>
+      <input class="field-input" type="tel" placeholder="010-0000-0000" id="f-tel">
+      <div class="field-hint">자료 발송 전 개별 연락을 드립니다.</div>
+    </div>
+
+    <div class="field-card">
+      <div class="field-label"><i class="ti ti-mail"></i> 이메일 주소 <span class="req">*</span></div>
+      <input class="field-input" type="email" placeholder="teacher@school.kr" id="f-email">
+    </div>
+
+    <div class="field-card">
+      <div class="field-label"><i class="ti ti-map-pin"></i> 학교 주소 <span class="req">*</span></div>
+      <textarea class="field-input" placeholder="예: 서울특별시 강남구 ○○로 000, ○○고등학교 영어과" id="f-addr"></textarea>
+    </div>
+
+    <div class="section-label">신청 자료 선택</div>
+
+    <div class="choice-card">
+      <div class="choice-title"><i class="ti ti-books"></i> 받아보실 자료를 선택해 주세요. <span class="req">*</span></div>
+      <div class="choice-item on" onclick="toggle(this)" data-val="영어권문화자료집">
+        <div class="choice-check"><i class="ti ti-check"></i></div>
+        <div>
+          <div class="choice-name">① 영어권문화자료집</div>
+          <div class="choice-desc">본사 영어 교과서 단원 연계 문화 콘텐츠집</div>
+        </div>
+      </div>
+      <div class="choice-item" onclick="toggle(this)" data-val="교과서별 부가자료 풀패키지">
+        <div class="choice-check"></div>
+        <div>
+          <div class="choice-name">② 교과서별 부가자료 풀패키지</div>
+          <div class="choice-desc">단원별 수업 PPT, 활동지, 평가 자료 등</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="privacy-box">
+      <i class="ti ti-lock"></i>
+      <div class="privacy-text">수집된 개인정보(성명·학교·연락처·이메일)는 자료 발송 목적으로만 이용되며, 발송 완료 후 파기됩니다.</div>
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()">신청하기</button>
+
+    <div class="footer">엔이능률 채널마케팅본부</div>
+  </div>
+</div>
+
+<script>
+let cur=0;
+const slidesEl=document.getElementById('slides');
+const dotsEl=document.querySelectorAll('.dot');
+function goTo(n){cur=n;slidesEl.style.transform='translateX(-'+(cur*100)+'%)';dotsEl.forEach(function(d,i){d.classList.toggle('active',i===cur);})}
+function move(d){goTo((cur+d+2)%2)}
+function playSlide(idx){
+  var ov=document.getElementById('ov'+idx);
+  var iframe=document.getElementById('yt'+idx);
+  if(iframe.src.indexOf('autoplay=1')===-1){iframe.src=iframe.src+'&autoplay=1';}
+  ov.classList.add('playing');
+}
+function toggle(el){
+  el.classList.toggle('on');
+  var chk=el.querySelector('.choice-check');
+  chk.innerHTML=el.classList.contains('on')?'<i class="ti ti-check"></i>':'';
+}
+function submitForm(){
+  var name=document.getElementById('f-name').value.trim();
+  var school=document.getElementById('f-school').value.trim();
+  var tel=document.getElementById('f-tel').value.trim();
+  var email=document.getElementById('f-email').value.trim();
+  var addr=document.getElementById('f-addr').value.trim();
+  var selected=[];
+  document.querySelectorAll('.choice-item.on').forEach(function(el){selected.push(el.getAttribute('data-val'));});
+  if(!name||!school||!tel||!email||!addr){alert('모든 항목을 입력해 주세요.');return;}
+  if(selected.length===0){alert('신청 자료를 하나 이상 선택해 주세요.');return;}
+  alert('신청이 완료되었습니다. 감사합니다!\n7월 10일 이후 개별 연락 드린 후 학교 주소로 발송해 드립니다.');
+}
+</script>
+</body>
+</html>
