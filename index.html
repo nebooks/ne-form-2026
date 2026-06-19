@@ -218,7 +218,7 @@ function submitForm(){
 }
 
 document.getElementById('f-tel').addEventListener('input', function(e){
-  var v=e.target.value.replace(/\D/g,'').substring(0,11);
+  var v=e.target.value.replace(/[^0-9]/g,'').substring(0,11);
   if(v.length<4) e.target.value=v;
   else if(v.length<8) e.target.value=v.substring(0,3)+'-'+v.substring(3);
   else e.target.value=v.substring(0,3)+'-'+v.substring(3,7)+'-'+v.substring(7);
