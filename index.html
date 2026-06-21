@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="description" content="엔이능률 교과서 수업 운영 지원 자료 무료 신청">
 <title>엔이능률 교과서 부가자료 무료 신청</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;min-height:100vh;background:#f4f4f4;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif}
@@ -43,56 +43,47 @@ html,body{width:100%;min-height:100vh;background:#f4f4f4;font-family:-apple-syst
 .req{color:#E83828;margin-left:2px}
 .field-input{width:100%;border:1px solid #e0e0e0;border-radius:8px;padding:12px 13px;font-size:15px;color:#1D1717;background:#fff;outline:none;-webkit-appearance:none}
 .field-input:focus{border-color:#E83828;box-shadow:0 0 0 3px rgba(232,56,40,0.08)}
-textarea.field-input{resize:none;height:80px;line-height:1.5}
+.field-input[readonly]{background:#f8f8f8;cursor:pointer}
 .field-hint{font-size:12px;color:#aaa;margin-top:6px}
+.addr-row{display:flex;gap:8px;margin-bottom:8px}
+.addr-btn{flex-shrink:0;padding:0 16px;background:#1D1717;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
 .choice-card{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:14px 16px}
 .choice-title{font-size:14px;color:#444;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .choice-title i{font-size:17px;color:#888}
-.choice-hint{font-size:12px;color:#aaa;margin-bottom:12px;padding-left:2px}
+.choice-hint{font-size:12px;color:#aaa;margin-bottom:12px}
 .choice-item{display:flex;align-items:flex-start;gap:12px;padding:12px 13px;border-radius:8px;border:1px solid #e8e8e8;margin-bottom:8px;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
 .choice-item:last-child{margin-bottom:0}
 .choice-item.on{border-color:#E83828;background:#FEF5F4}
-.choice-radio{width:22px;height:22px;border-radius:5px;border:1.5px solid #ccc;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
-.choice-item.on .choice-radio{border-color:#E83828;background:#E83828}
-.choice-radio-dot{width:14px;height:14px;display:none}
-.choice-item.on .choice-radio-dot{display:flex;align-items:center;justify-content:center}
+.choice-box{width:22px;height:22px;border-radius:5px;border:1.5px solid #ccc;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.choice-item.on .choice-box{background:#E83828;border-color:#E83828}
 .choice-name{font-size:14px;font-weight:600;color:#1D1717;margin-bottom:3px}
 .choice-desc{font-size:12px;color:#888;line-height:1.4}
 .privacy-box{background:#f8f8f8;border-radius:8px;padding:13px 15px;display:flex;gap:9px;border:1px solid #e8e8e8}
 .privacy-box i{font-size:17px;color:#aaa;flex-shrink:0;margin-top:1px}
 .privacy-text{font-size:12px;color:#888;line-height:1.7}
-.submit-btn{width:100%;padding:17px;background:#E83828;color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:-0.01em;margin-top:4px;-webkit-tap-highlight-color:transparent}
+.submit-btn{width:100%;padding:17px;background:#E83828;color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .submit-btn:active{background:#c42e1e;transform:scale(0.98)}
 .footer{text-align:center;padding:20px 16px 36px;font-size:12px;color:#aaa;background:#f4f4f4}
- 
-/* 완료 페이지 */
-.done-page{display:none;min-height:100vh;background:#f4f4f4;flex-direction:column}
+.done-page{display:none;max-width:480px;margin:0 auto;min-height:100vh;background:#f4f4f4;flex-direction:column}
 .done-page.show{display:flex}
-.done-top{background:#1D1717;padding:48px 24px 40px;text-align:center;flex-shrink:0}
+.done-top{background:#1D1717;padding:48px 24px 40px;text-align:center}
 .done-icon{width:64px;height:64px;border-radius:50%;background:#E83828;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
 .done-icon i{font-size:32px;color:#fff}
-.done-title{font-size:22px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:10px}
+.done-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:10px}
 .done-sub{font-size:14px;color:#CDCEC0;line-height:1.7}
 .done-sub strong{color:#fff;font-weight:700}
-.done-body{padding:24px 16px;flex:1}
-.done-card{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:18px 16px;display:flex;gap:12px;align-items:flex-start}
-.done-card i{font-size:20px;color:#E83828;flex-shrink:0;margin-top:2px}
-.done-card-text{font-size:14px;color:#444;line-height:1.7}
-.done-card-text strong{color:#1D1717;font-weight:700}
-.done-footer{text-align:center;padding:16px 16px 36px;font-size:12px;color:#aaa}
+.done-footer{text-align:center;padding:24px 16px 36px;font-size:12px;color:#aaa}
 </style>
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
- 
-<!-- 신청 페이지 -->
+
 <div class="page" id="formPage">
   <div class="hero-top">
     <div class="hero-tag">Free Material</div>
     <div class="hero-title">엔이능률 영어 교과서<br><span>수업 지원 자료</span> 무료 신청</div>
     <div class="hero-sub">선생님의 수업을 위한 부가자료를 무료로 보내드립니다.</div>
   </div>
- 
+
   <div class="slider-wrap">
     <div class="slides" id="slides">
       <div class="slide">
@@ -110,79 +101,84 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
         <div class="slide-label">② 교과서별 부가자료 풀패키지</div>
       </div>
     </div>
-    <button class="arrow left" onclick="move(-1)" aria-label="이전 영상"><i class="ti ti-chevron-left"></i></button>
-    <button class="arrow right" onclick="move(1)" aria-label="다음 영상"><i class="ti ti-chevron-right"></i></button>
+    <button class="arrow left" onclick="move(-1)" aria-label="이전"><i class="ti ti-chevron-left"></i></button>
+    <button class="arrow right" onclick="move(1)" aria-label="다음"><i class="ti ti-chevron-right"></i></button>
     <div class="dots">
       <div class="dot active" onclick="goTo(0)"></div>
       <div class="dot" onclick="goTo(1)"></div>
     </div>
   </div>
- 
+
   <div class="deadline-bar">
     <i class="ti ti-calendar-event"></i>
     <div class="deadline-text">신청 마감 <strong>2026년 7월 10일(목)</strong>까지</div>
   </div>
- 
+
   <div class="form-area">
     <div class="section-label">선생님 정보</div>
+
     <div class="field-card">
       <div class="field-label"><i class="ti ti-user"></i> 성함 <span class="req">*</span></div>
       <input class="field-input" type="text" placeholder="홍길동" id="f-name">
     </div>
+
     <div class="field-card">
       <div class="field-label"><i class="ti ti-building"></i> 학교명 <span class="req">*</span></div>
       <input class="field-input" type="text" placeholder="○○○고등학교" id="f-school">
     </div>
+
     <div class="field-card">
       <div class="field-label"><i class="ti ti-device-mobile"></i> 연락처 <span class="req">*</span></div>
       <input class="field-input" type="tel" placeholder="010-0000-0000" id="f-tel">
       <div class="field-hint">자료 발송 전 개별 연락을 드립니다.</div>
     </div>
+
     <div class="field-card">
       <div class="field-label"><i class="ti ti-mail"></i> 이메일 주소 <span class="req">*</span></div>
       <input class="field-input" type="email" placeholder="teacher@school.kr" id="f-email">
     </div>
+
     <div class="field-card">
       <div class="field-label"><i class="ti ti-map-pin"></i> 학교 주소 <span class="req">*</span></div>
-      <div style="display:flex;gap:8px;margin-bottom:8px">
-        <input class="field-input" type="text" placeholder="주소 검색" id="f-addr" readonly style="flex:1;cursor:pointer;background:#f8f8f8" onclick="searchAddr()">
-        <button type="button" onclick="searchAddr()" style="flex-shrink:0;padding:0 16px;background:#1D1717;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">검색</button>
+      <div class="addr-row">
+        <input class="field-input" type="text" placeholder="주소 검색" id="f-addr" readonly onclick="searchAddr()">
+        <button class="addr-btn" onclick="searchAddr()">검색</button>
       </div>
       <input class="field-input" type="text" placeholder="상세 주소 입력 (예: 영어과, 3층)" id="f-addr-detail">
     </div>
- 
+
     <div class="section-label">신청 자료 선택</div>
+
     <div class="choice-card">
       <div class="choice-title"><i class="ti ti-books"></i> 받아보실 자료를 선택해 주세요. <span class="req">*</span></div>
       <div class="choice-hint">중복 선택 가능합니다.</div>
-      <div class="choice-item" onclick="selectChoice(this)" data-val="① 영어권문화자료집 📖 — 본사 영어 교과서 단원 연계 문화 콘텐츠집">
-        <div class="choice-radio"><i class="ti ti-check" style="font-size:14px;color:#fff;display:none" class="chk-icon"></i></div>
+      <div class="choice-item" onclick="toggleChoice(this)" data-val="① 영어권문화자료집 📖 — 본사 영어 교과서 단원 연계 문화 콘텐츠집">
+        <div class="choice-box"></div>
         <div>
           <div class="choice-name">① 영어권문화자료집</div>
           <div class="choice-desc">본사 영어 교과서 단원 연계 문화 콘텐츠집</div>
         </div>
       </div>
-      <div class="choice-item" onclick="selectChoice(this)" data-val="② 교과서별 부가자료 풀패키지 🗂️ — 단원별 수업 PPT, 활동지, 평가 자료 등">
-        <div class="choice-radio"><i class="ti ti-check" style="font-size:14px;color:#fff;display:none" class="chk-icon"></i></div>
+      <div class="choice-item" onclick="toggleChoice(this)" data-val="② 교과서별 부가자료 풀패키지 🗂️ — 단원별 수업 PPT, 활동지, 평가 자료 등">
+        <div class="choice-box"></div>
         <div>
           <div class="choice-name">② 교과서별 부가자료 풀패키지</div>
           <div class="choice-desc">단원별 수업 PPT, 활동지, 평가 자료 등</div>
         </div>
       </div>
     </div>
- 
+
     <div class="privacy-box">
       <i class="ti ti-lock"></i>
       <div class="privacy-text">수집된 개인정보는 자료 발송 목적으로만 이용 후 파기됩니다.</div>
     </div>
- 
+
     <button class="submit-btn" onclick="submitForm()">신청하기</button>
     <div class="footer">Copyright © NE Neungyule, Inc. All Rights Reserved</div>
   </div>
 </div>
- 
-<!-- 완료 페이지 -->
-<div class="done-page" id="donePage" style="display:none">
+
+<div class="done-page" id="donePage">
   <div class="done-top">
     <div class="done-icon"><i class="ti ti-check"></i></div>
     <div class="done-title">신청해 주셔서 감사합니다!</div>
@@ -190,32 +186,47 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
   </div>
   <div class="done-footer">Copyright © NE Neungyule, Inc. All Rights Reserved</div>
 </div>
- 
+
 <script>
-let cur=0;
-const slidesEl=document.getElementById('slides');
-const dotsEl=document.querySelectorAll('.dot');
-function goTo(n){cur=n;slidesEl.style.transform='translateX(-'+(cur*100)+'%)';dotsEl.forEach(function(d,i){d.classList.toggle('active',i===cur);})}
-function move(d){goTo((cur+d+2)%2)}
+var cur=0;
+var slidesEl=document.getElementById('slides');
+var dotsEl=document.querySelectorAll('.dot');
+
+function goTo(n){
+  cur=n;
+  slidesEl.style.transform='translateX(-'+(cur*100)+'%)';
+  dotsEl.forEach(function(d,i){d.classList.toggle('active',i===cur);});
+}
+function move(d){goTo((cur+d+2)%2);}
 function playSlide(idx){
   var ov=document.getElementById('ov'+idx);
   var iframe=document.getElementById('yt'+idx);
   if(iframe.src.indexOf('autoplay=1')===-1){iframe.src=iframe.src+'&autoplay=1';}
   ov.classList.add('playing');
 }
-function selectChoice(el){
+function toggleChoice(el){
   el.classList.toggle('on');
-  var icon=el.querySelector('.choice-radio i');
+  var box=el.querySelector('.choice-box');
   if(el.classList.contains('on')){
-    el.querySelector('.choice-radio').style.borderColor='#E83828';
-    el.querySelector('.choice-radio').style.background='#E83828';
-    if(icon) icon.style.display='block';
+    box.innerHTML='<i class="ti ti-check" style="font-size:14px;color:#fff;"></i>';
   } else {
-    el.querySelector('.choice-radio').style.borderColor='#ccc';
-    el.querySelector('.choice-radio').style.background='transparent';
-    if(icon) icon.style.display='none';
+    box.innerHTML='';
   }
 }
+function searchAddr(){
+  new daum.Postcode({
+    oncomplete:function(data){
+      document.getElementById('f-addr').value=data.roadAddress||data.jibunAddress;
+      document.getElementById('f-addr-detail').focus();
+    }
+  }).open();
+}
+document.getElementById('f-tel').addEventListener('input',function(e){
+  var v=e.target.value.replace(/[^0-9]/g,'').substring(0,11);
+  if(v.length<4) e.target.value=v;
+  else if(v.length<8) e.target.value=v.substring(0,3)+'-'+v.substring(3);
+  else e.target.value=v.substring(0,3)+'-'+v.substring(3,7)+'-'+v.substring(7);
+});
 function submitForm(){
   var name=document.getElementById('f-name').value.trim();
   var school=document.getElementById('f-school').value.trim();
@@ -226,75 +237,43 @@ function submitForm(){
   var selected=document.querySelectorAll('.choice-item.on');
   if(!name||!school||!tel||!email||!addr){alert('모든 항목을 입력해 주세요.');return;}
   if(selected.length===0){alert('신청 자료를 선택해 주세요.');return;}
- 
-  var fullAddr = addrDetail ? addr+' '+addrDetail : addr;
+  var fullAddr=addrDetail?addr+' '+addrDetail:addr;
   var FORM_ID='1FAIpQLSf6Hjws7DB6tsWhJjl-fbOcr-q6OwcBVh2mMrvi9OP3JCY_rw';
   var base='https://docs.google.com/forms/d/e/'+FORM_ID+'/formResponse';
- 
-  var params = new URLSearchParams();
-  params.append('entry.326968838', name);
-  params.append('entry.1007026459', school);
-  params.append('entry.1855800715', tel);
-  params.append('entry.1222924173', email);
-  params.append('entry.1142960706', fullAddr);
-  selected.forEach(function(el){
-    params.append('entry.1118510385', el.getAttribute('data-val'));
-  });
-  params.append('draftResponse', '[]');
-  params.append('pageHistory', '0');
-  params.append('fvv', '1');
-  params.append('fbzx', Math.floor(Math.random()*9e18).toString());
- 
-  var iframe=document.getElementById('hidden-form-target');
-  if(!iframe){
-    iframe=document.createElement('iframe');
-    iframe.id='hidden-form-target';
-    iframe.name='hidden-form-target';
-    iframe.style.display='none';
-    document.body.appendChild(iframe);
-  }
- 
+  var iframe=document.createElement('iframe');
+  iframe.name='hidden-frame';
+  iframe.style.display='none';
+  document.body.appendChild(iframe);
   var form=document.createElement('form');
   form.method='POST';
   form.action=base;
-  form.target='hidden-form-target';
+  form.target='hidden-frame';
   form.style.display='none';
- 
-  params.forEach(function(val, key){
-    var input=document.createElement('input');
-    input.type='hidden';
-    input.name=key;
-    input.value=val;
-    form.appendChild(input);
+  var fields={
+    'entry.326968838':name,
+    'entry.1007026459':school,
+    'entry.1855800715':tel,
+    'entry.1222924173':email,
+    'entry.1142960706':fullAddr
+  };
+  Object.keys(fields).forEach(function(k){
+    var inp=document.createElement('input');
+    inp.type='hidden';inp.name=k;inp.value=fields[k];
+    form.appendChild(inp);
   });
- 
+  selected.forEach(function(el){
+    var inp=document.createElement('input');
+    inp.type='hidden';inp.name='entry.1118510385';inp.value=el.getAttribute('data-val');
+    form.appendChild(inp);
+  });
   document.body.appendChild(form);
   form.submit();
- 
   setTimeout(function(){
-    document.body.removeChild(form);
     document.getElementById('formPage').style.display='none';
     document.getElementById('donePage').classList.add('show');
     window.scrollTo(0,0);
-  }, 500);
-}
- 
-document.getElementById('f-tel').addEventListener('input', function(e){
-  var v=e.target.value.replace(/[^0-9]/g,'').substring(0,11);
-  if(v.length<4) e.target.value=v;
-  else if(v.length<8) e.target.value=v.substring(0,3)+'-'+v.substring(3);
-  else e.target.value=v.substring(0,3)+'-'+v.substring(3,7)+'-'+v.substring(7);
-});
- 
-function searchAddr(){
-  new daum.Postcode({
-    oncomplete: function(data){
-      document.getElementById('f-addr').value = data.roadAddress || data.jibunAddress;
-      document.getElementById('f-addr-detail').focus();
-    }
-  }).open();
+  },500);
 }
 </script>
 </body>
 </html>
- 
