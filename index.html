@@ -64,7 +64,7 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
 .submit-btn{width:100%;padding:17px;background:#E83828;color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:-0.01em;margin-top:4px;-webkit-tap-highlight-color:transparent}
 .submit-btn:active{background:#c42e1e;transform:scale(0.98)}
 .footer{text-align:center;padding:20px 16px 36px;font-size:12px;color:#aaa;background:#f4f4f4}
-
+ 
 /* 완료 페이지 */
 .done-page{display:none;min-height:100vh;background:#f4f4f4;flex-direction:column}
 .done-page.show{display:flex}
@@ -84,7 +84,7 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-
+ 
 <!-- 신청 페이지 -->
 <div class="page" id="formPage">
   <div class="hero-top">
@@ -92,7 +92,7 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
     <div class="hero-title">엔이능률 영어 교과서<br><span>수업 지원 자료</span> 무료 신청</div>
     <div class="hero-sub">선생님의 수업을 위한 부가자료를 무료로 보내드립니다.</div>
   </div>
-
+ 
   <div class="slider-wrap">
     <div class="slides" id="slides">
       <div class="slide">
@@ -117,12 +117,12 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
       <div class="dot" onclick="goTo(1)"></div>
     </div>
   </div>
-
+ 
   <div class="deadline-bar">
     <i class="ti ti-calendar-event"></i>
     <div class="deadline-text">신청 마감 <strong>2026년 7월 10일(목)</strong>까지</div>
   </div>
-
+ 
   <div class="form-area">
     <div class="section-label">선생님 정보</div>
     <div class="field-card">
@@ -150,7 +150,7 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
       </div>
       <input class="field-input" type="text" placeholder="상세 주소 입력 (예: 영어과, 3층)" id="f-addr-detail">
     </div>
-
+ 
     <div class="section-label">신청 자료 선택</div>
     <div class="choice-card">
       <div class="choice-title"><i class="ti ti-books"></i> 받아보실 자료를 선택해 주세요. <span class="req">*</span></div>
@@ -170,17 +170,17 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
         </div>
       </div>
     </div>
-
+ 
     <div class="privacy-box">
       <i class="ti ti-lock"></i>
       <div class="privacy-text">수집된 개인정보는 자료 발송 목적으로만 이용 후 파기됩니다.</div>
     </div>
-
+ 
     <button class="submit-btn" onclick="submitForm()">신청하기</button>
     <div class="footer">Copyright © NE Neungyule, Inc. All Rights Reserved</div>
   </div>
 </div>
-
+ 
 <!-- 완료 페이지 -->
 <div class="done-page" id="donePage" style="display:none">
   <div class="done-top">
@@ -190,7 +190,7 @@ textarea.field-input{resize:none;height:80px;line-height:1.5}
   </div>
   <div class="done-footer">Copyright © NE Neungyule, Inc. All Rights Reserved</div>
 </div>
-
+ 
 <script>
 let cur=0;
 const slidesEl=document.getElementById('slides');
@@ -226,11 +226,11 @@ function submitForm(){
   var selected=document.querySelectorAll('.choice-item.on');
   if(!name||!school||!tel||!email||!addr){alert('모든 항목을 입력해 주세요.');return;}
   if(selected.length===0){alert('신청 자료를 선택해 주세요.');return;}
-
+ 
   var fullAddr = addrDetail ? addr+' '+addrDetail : addr;
   var FORM_ID='1FAIpQLSf6Hjws7DB6tsWhJjl-fbOcr-q6OwcBVh2mMrvi9OP3JCY_rw';
   var base='https://docs.google.com/forms/d/e/'+FORM_ID+'/formResponse';
-
+ 
   var params = new URLSearchParams();
   params.append('entry.326968838', name);
   params.append('entry.1007026459', school);
@@ -244,7 +244,7 @@ function submitForm(){
   params.append('pageHistory', '0');
   params.append('fvv', '1');
   params.append('fbzx', Math.floor(Math.random()*9e18).toString());
-
+ 
   var iframe=document.getElementById('hidden-form-target');
   if(!iframe){
     iframe=document.createElement('iframe');
@@ -253,13 +253,13 @@ function submitForm(){
     iframe.style.display='none';
     document.body.appendChild(iframe);
   }
-
+ 
   var form=document.createElement('form');
   form.method='POST';
   form.action=base;
   form.target='hidden-form-target';
   form.style.display='none';
-
+ 
   params.forEach(function(val, key){
     var input=document.createElement('input');
     input.type='hidden';
@@ -267,10 +267,10 @@ function submitForm(){
     input.value=val;
     form.appendChild(input);
   });
-
+ 
   document.body.appendChild(form);
   form.submit();
-
+ 
   setTimeout(function(){
     document.body.removeChild(form);
     document.getElementById('formPage').style.display='none';
@@ -278,14 +278,14 @@ function submitForm(){
     window.scrollTo(0,0);
   }, 500);
 }
-
+ 
 document.getElementById('f-tel').addEventListener('input', function(e){
   var v=e.target.value.replace(/[^0-9]/g,'').substring(0,11);
   if(v.length<4) e.target.value=v;
   else if(v.length<8) e.target.value=v.substring(0,3)+'-'+v.substring(3);
   else e.target.value=v.substring(0,3)+'-'+v.substring(3,7)+'-'+v.substring(7);
 });
-
+ 
 function searchAddr(){
   new daum.Postcode({
     oncomplete: function(data){
@@ -297,3 +297,4 @@ function searchAddr(){
 </script>
 </body>
 </html>
+ 
