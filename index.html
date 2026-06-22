@@ -180,7 +180,7 @@ html,body{width:100%;min-height:100vh;background:#f4f4f4;font-family:-apple-syst
   </div>
 </div>
 
-<div class="done-page" id="donePage" style="display:none">
+<div class="done-page" id="donePage">
   <div class="done-top">
     <div class="done-icon"><i class="ti ti-check"></i></div>
     <div class="done-title">신청해 주셔서 감사합니다!</div>
@@ -267,7 +267,6 @@ function submitForm(){
   form.submit();
   setTimeout(function(){
     document.getElementById('formPage').style.display='none';
-    document.getElementById('donePage').classList.add('show');
     document.getElementById('donePage').style.display='flex';
     window.scrollTo(0,0);
   },500);
